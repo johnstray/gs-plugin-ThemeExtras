@@ -1,0 +1,157 @@
+/**
+ * GetSimple CMS Theme Extras
+ * Allows themes to provide extra functionality and configuration options to enable more advanced theming and theme
+ * control of themes designed and developed for GetSimple CMS.
+ * 
+ * @author  John Stray <getsimple@johnstray.com>
+ * @url     https://johnstray.com/gs-plugin/ThemeExtras
+ * @version 1.0.0
+ */
+
+.gs_themextras_ui_form .leftsec,
+.gs_themextras_ui_form .rightsec {
+    padding: 10px 10px 10px 10px;
+}
+
+#theme #maincontent form + p {
+    display: none;
+}
+
+#theme-preview {
+    width: 275px;
+    height: 225px;
+}
+
+.gs_themextras_ui_themeinfo .leftsec,
+.gs_themextras_ui_themeinfo .rightsec {
+    padding: 20px;
+    height: 265px;
+    position: relative;
+}
+
+.gs_themextras_ui_themeinfo .leftsec {
+    text-align: center;
+}
+
+.gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot img {
+    min-height: 150px;
+    max-height: 225px;
+    min-width: 150px;
+    max-width: 100%;
+}
+
+.gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot p {
+    margin: 0;
+    height: 223px;
+    line-height: 223px;
+    background: #fff;
+    border: 1px dotted #e3e3e3;
+}
+
+.gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+    width: 100%;
+}
+
+.gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot:before,
+.gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot:after {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    bottom: 15px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width: 300px;
+    background: #777;
+    box-shadow: 0 15px 10px #777;
+    transform: rotate(-3deg);
+}
+
+.gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot:after {
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
+}
+
+.gs_themextras_ui_themeinfo .gs_themextras_ui_details  {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 40px);
+}
+
+.gs_themextras_ui_themeinfo h4 {
+    margin: 0;
+    line-height: 20px;
+    font-family: Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: cadetblue;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.gs_themextras_ui_themeinfo h4 small {
+    color: #777;
+    float: right;
+}
+
+.gs_themextras_ui_themeinfo p a {
+    font-weight: normal;
+}
+
+.gs_themextras_ui_themeinfo p:last-child {
+    color: #555;
+}
+
+.gs_themextras_ui_form h3 {
+    font-size: 16px;
+    text-align: center;
+    margin: 40px 0 20px;
+}
+
+.gs_themextras_ui_form input,
+.gs_themextras_ui_form select,
+.gs_themextras_ui_form textarea,
+.gs_themextras_ui_form .radio {
+    margin-top: 8px;
+}
+
+.gs_themextras_ui_form textarea + label {
+    display: inline-block;
+    padding-top: 8px;
+    padding-left: 40px;
+}
+
+.gs_themextras_ui_form .radio {
+    width: 49%;
+    display: inline-block;
+}
+.gs_themextras_ui_form .radio input[type=radio] {
+    margin-top: 0;
+}
+
+.gs_themextras_ui_hline {
+    border: none;
+    border-top: 1px solid #e3e3e3;
+    margin: 0 0 20px;
+}
+
+/* Copyright Text Section */
+.gs_themextras_ui_copyright-text {
+  text-shadow: 1px 1px 0 rgba(255,255,255,.4);
+  margin: -30px 250px 0 0;
+  padding: 10px 0 0;
+  font-size: 11px;
+  color: #999;
+  text-align: center;
+}
+.gs_themextras_ui_copyright-text div {
+  font-size:10px;
+}
+.gs_themextras_ui_copyright-text a {
+  color:#888 !important;
+  text-decoration:none !important;
+}

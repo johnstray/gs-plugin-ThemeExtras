@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+    <name>Innovation</name>
+    <name-de_DE>German Innovation</name-de_DE>
+    <description>The GetSimple CMS primary default theme</description>
+    <author>GetSimple CMS</author>
+    <author-url>https://get-simple.info/</author-url>
+    <config>
+        <option>
+            <name>config-option</name>
+            <title>Configuration Option</title>
+            <hint>Hint text about this option</hint>
+            <type>dropdown</type>
+            <default>value</default>
+            <options>
+                <option-key>Display Value</option-key>
+            </options>
+        </option>
+    </config>
+    <customfields>
+        <option>
+            <name>config-option</name>
+            <title>Configuration Option</title>
+            <hint>Hint text about this option</hint>
+            <type>dropdown</type>
+            <default>value</default>
+            <options>
+                <option-key>Display Value</option-key>
+            </options>
+        </option>
+    </customfields>
+</theme>
+

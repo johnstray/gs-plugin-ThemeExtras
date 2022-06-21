@@ -1,0 +1,277 @@
+<?php
+/**
+ * GetSimple CMS Theme Extras
+ * Allows themes to provide extra functionality and configuration options to enable more advanced theming and theme
+ * control of themes designed and developed for GetSimple CMS.
+ * 
+ * @author  John Stray <getsimple@johnstray.com>
+ * @url     https://johnstray.com/gs-plugin/ThemeExtras
+ * @version 1.0.0
+ */
+
+# Prevent improper loading of this file. Must be loaded via GetSimple's plugin interface.
+if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' ); }
+
+class ThemeExtras
+{
+    var $data_file = GSDATAOTHERPATH . 'themes-config.xml';
+    var $current_lang = 'en_US';
+    var $current_config = array();
+    
+    public function __construct()
+    {
+        GLOBAL $LANG;
+        if ( empty($LANG) === false )
+        {
+            $this->current_lang = $LANG;
+        }
+        
+        if ( defined('THEMEXTRASDATA') )
+        {
+            $this->data_file = THEMEXTRASDATA;
+        }
+        
+        # Check if the config data file exists, create a new one if not
+        if ( file_exists($this->data_file) === false )
+        {
+            ThemeExtras_debugLog( "Config data file not found. Creating a new one.", 'INFO' );
+            $config_xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><theme-configs/>');
+            if ( XMLsave($config_xml, $this->data_file) === false )
+            {
+                ThemeExtras_debugLog( "Could not create new config data file. XMLsave (false)", 'ERROR' );
+                ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/CREATE_CONFIG_FAILED'), 'error', false );
+                # Bail out early so we don't try to read this file that couldn't be created,
+                # preventing php errors and will cause an empty config array.
+                return;
+            }
+        }
+        
+        # Check if we can read from the config data file
+        if ( is_readable($this->data_file) === false )
+        {
+            ThemeExtras_debugLog( "Config data file is not readable. is_readable (false)", 'ERROR' );
+            ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_FILE_UNREADABLE'), $this->data_file), 'error', false );
+            # Bail out early so we don't try to read this file that is not readable,
+            # preventing php errors and will cause an empty config array.
+            return;
+        }
+        
+        # Check if we can read from the config data file
+        # We wont bail out this time because we can still read in the config. We just wont be able to write to it.
+        if ( is_writable($this->data_file) === false )
+        {
+            ThemeExtras_debugLog( "Config data file is not writable. is_writable (false)", 'WARN' );
+            ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_FILE_NOT_WRITABLE'), $this->data_file), 'warn', false );
+        }
+        
+        $config_xml = getXML( $this->data_file );
+        $config_array = json_decode( json_encode($config_xml), true );
+        $this->current_config = $config_array['theme'];
+        if ( $this->isAssociative($this->current_config) )
+        {
+            $this->current_config = array( 0 => $this->current_config );
+        }
+    }
+    
+    # -----
+    # Configuration Settings
+    # -----
+    
+    public function getThemeInfo( string $theme ): array
+    {
+        $theme_config_file = GSTHEMESPATH . $theme . DIRECTORY_SEPARATOR . 'theme.xml';
+        $theme_config_array = array();
+        if ( file_exists($theme_config_file) )
+        {
+            $theme_config_xml = getXML( $theme_config_file );
+            $theme_config_array = json_decode(json_encode($theme_config_xml), true);
+        }
+        
+        # We don't need these in this output
+        unset($theme_config_array['config']);
+        unset($theme_config_array['customfields']);
+        
+        # Process language options
+        foreach ($theme_config_array as $config_key => $config_value)
+        {
+            if ( is_array($config_value) )
+            {
+                if ( array_key_exists($this->current_lang, $config_value) )
+                {
+                    $theme_config_array[$config_key] = $config_value[$this->current_lang];
+                }
+                else
+                {
+                    $theme_config_array[$config_key] = $config_value['en_US'];
+                }
+            }
+        }
+        
+        return $theme_config_array;
+    }
+    
+    /**
+     * Has config
+     * Checks to see if the current theme has any configuration options and returns an array of the possible options.
+     * 
+     * @since 1.0.0
+     * @param string $theme The name of the theme to check against
+     * @return array An array of possible configuration options, empty if not available for current theme
+     */
+    public function hasConfig( string $theme ): array
+    {
+        $theme_config_file = GSTHEMESPATH . $theme . DIRECTORY_SEPARATOR . 'theme.xml';
+        if ( file_exists($theme_config_file) === false )
+        {
+            # Theme not supported, bail out and return empty array
+            return array();
+        }
+        
+        $theme_config_xml = getXML( $theme_config_file );
+        $theme_config_array = json_decode(json_encode($theme_config_xml), true);
+        
+        # Rebuild array processing language options
+        $processed_config_array = array();
+        foreach ( $theme_config_array['config'] as $config_id => $config_details )
+        {
+            foreach ( $config_details as $detail_key => $detail_value )
+            {
+                if ( is_array($detail_value) && $detail_key !== 'options' )
+                {
+                    if ( array_key_exists($this->current_lang, $detail_value) )
+                    {
+                        $processed_config_array[$config_id][$detail_key] = $detail_value[$this->current_lang];
+                    }
+                    else
+                    {
+                        $processed_config_array[$config_id][$detail_key] = $detail_value['en_US'];
+                    }
+                }
+                elseif ( $detail_key === 'options' )
+                {
+                    foreach ( $detail_value as $option_key => $option_value )
+                    {
+                        if ( is_array($option_value) )
+                        {
+                            if ( array_key_exists($this->current_lang, $option_value) )
+                            {
+                                $processed_config_array[$config_id][$detail_key][$option_key] = $option_value[$this->current_lang];
+                            }
+                            else
+                            {
+                                $processed_config_array[$config_id][$detail_key][$option_key] = $option_value['en_US'];
+                            }
+                        }
+                        else
+                        {
+                            $processed_config_array[$config_id][$detail_key][$option_key] = $option_value;
+                        }
+                    }
+                }
+                else
+                {
+                    $processed_config_array[$config_id][$detail_key] = $detail_value;
+                }
+            }
+        }
+        
+        return $processed_config_array;
+    }
+    
+    /**
+     * Get config
+     * Returns an array of configuration settings and their current values for the given theme
+     * 
+     * @since 1.0.0
+     * @param string $theme The name of the theme to check against
+     * @return array An array of configuration settings, empty if not available for current theme
+     */
+    public function getConfig( string $theme ): array
+    {
+        $theme_config = array();
+        foreach ( $this->current_config as $theme_data )
+        {
+            if ( $theme_data['name'] === $theme )
+            {
+                $theme_config = $theme_data['config'];
+            }
+        }
+        return $theme_config;
+    }
+    
+    /**
+     * Save config
+     * Saves the submitted configuration settings to the `theme-config.xml` file.
+     * 
+     * @since 1.0.0
+     * @param string $theme The name of the theme config relates to
+     * @param array $config An array of config options to save
+     * @return bool True if successful, False otherwise
+     */
+    public function saveConfig( string $theme, array $config ): bool
+    {
+        return false;
+    }
+    
+    # -----
+    # Custom Fields
+    # -----
+    
+    /**
+     * Has custom fields
+     * Check to see if the current theme has any custom fields options and returns an array of possible options
+     * 
+     * @since 1.0.0
+     * @param string $theme The name of the theme to check against
+     * @return array An array of possible custom fields options, empty if not available for the current theme
+     */
+    public function hasCustomFields( string $theme ): bool
+    {
+        return array();
+    }
+    
+    /**
+     * Get custom fields
+     * Returns an array of custom fields and their current values for the given theme
+     * 
+     * @since 1.0.0
+     * @param string $theme The name of the theme to check against
+     * @return array An array of custom fields, empty if not available for current theme
+     */
+    public function getCustomFields( string $theme ): array
+    {
+        return array();
+    }
+    
+    /**
+     * Save custom fields
+     * Saves the submitted custom fields values to the page's XML file.
+     * 
+     * @since 1.0.0
+     * @param string $theme The name of the theme custom fields relate to
+     * @param array $config An array of custom fields values to save
+     * @return bool True if successful, False otherwise
+     */
+    public function saveCustomFields( string $theme, array $fields ): bool
+    {
+        return false;
+    }
+    
+    /**
+     * Is associative array
+     * Checks if the given array is an associative array by looking for array keys with a string type. If array has
+     * string type keys, returns true (is associative), returns false otherwise (not associative).
+     * 
+     * @since 1.0.0
+     * @param array $array The array to check
+     * @return bool True if associative (has 1+ string keys), false otherwise
+     */
+    private function isAssociative( array $array ): bool
+    {
+        foreach ( $array as $key => $value)
+        {
+            if ( is_string($key) ) return true;
+        }
+        return false;
+    }
+}
