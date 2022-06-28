@@ -139,6 +139,19 @@
     margin: 0 0 20px;
 }
 
+/* Editor */
+
+.gs_themextras_ui_form h4 {
+    margin: 20px 0 8px;
+    padding: 0 10px;
+    line-height: 20px;
+    font-family: Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: cadetblue;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
 /* Copyright Text Section */
 .gs_themextras_ui_copyright-text {
   text-shadow: 1px 1px 0 rgba(255,255,255,.4);

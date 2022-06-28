@@ -31,7 +31,9 @@ function ThemeExtras_init(): void
     define( 'THEMEXTRASCONF', THEMEXTRASDATA . 'themes-config.xml' );
     
     # Hooks and Filters
-    add_action( 'theme-extras', 'ThemeExtras_main' );
+    add_action( 'theme-extras', 'ThemeExtras_main' );           // Called on the Theme admin page
+    add_action( 'edit-extras', 'ThemeExtras_editor' );          // Called within the Page Options toggle div on page editor
+    add_action( 'changedata-save', 'ThemeExtras_changedata' );  // Called just before page is saved
     
     # Register / Queue Stylesheets
     register_style( THEMEXTRAS . '_css', $SITEURL . '/plugins/' . THEMEXTRAS . '/admin_styles.css', THEMEXTRASVERS, 'screen' );
@@ -91,6 +93,28 @@ function ThemeExtras_main(): void
     # Insert copyright footer to the bottom of the page
     echo "</div><div class=\"gs_themextras_ui_copyright-text\">ThemeExtras Plugin &copy; 2022 John Stray - Licensed under <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">GNU GPLv3</a>";
     echo "<div>If you like this plugin or have found it useful, please consider a <a href=\"https://paypal.me/JohnStray\">donation</a></div>";
+}
+
+function ThemeExtras_editor (): void
+{
+    GLOBAL $TEMPLATE, $data_edit;
+
+    # Instantiate the core class so that we can use it here
+    $ThemeExtras = new ThemeExtras();
+    $customFields = $ThemeExtras->hasCustomFields($TEMPLATE);
+
+    require_once( THEMEXTRASPATH . 'editor.inc.php' );
+}
+
+function ThemeExtras_changedata (): void
+{
+    GLOBAL $TEMPLATE, $xml;
+
+    # Instantiate the core class so that we can use it here
+    $ThemeExtras = new ThemeExtras();
+
+    # Update the page's XML object to include the custom fields
+    $xml = $ThemeExtras->saveCustomFields($TEMPLATE, $xml, $_POST);
 }
 
 /**

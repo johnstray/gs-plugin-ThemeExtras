@@ -297,6 +297,14 @@ class ThemeExtras
         return true;
     }
     
+    /**
+     * Reset config
+     * Resets the config for the given theme to it's default settings by clearing out any current config settings
+     *
+     * @since 1.0.0
+     * @param string $theme The name of the theme to reset the config for
+     * @return bool True if successful, False otherwise
+     */
     public function resetConfig( string $theme ): bool
     {
         # Find the theme we are resetting
@@ -325,36 +333,88 @@ class ThemeExtras
      * @param string $theme The name of the theme to check against
      * @return array An array of possible custom fields options, empty if not available for the current theme
      */
-    public function hasCustomFields( string $theme ): bool
+    public function hasCustomFields( string $theme ): array
     {
-        return array();
-    }
-    
-    /**
-     * Get custom fields
-     * Returns an array of custom fields and their current values for the given theme
-     * 
-     * @since 1.0.0
-     * @param string $theme The name of the theme to check against
-     * @return array An array of custom fields, empty if not available for current theme
-     */
-    public function getCustomFields( string $theme ): array
-    {
-        return array();
+        $theme_config_file = GSTHEMESPATH . $theme . DIRECTORY_SEPARATOR . 'theme.xml';
+        if ( file_exists($theme_config_file) === false )
+        {
+            # Theme not supported, bail out and return empty array
+            return array();
+        }
+
+        $theme_config_xml = getXML( $theme_config_file );
+        $theme_config_array = json_decode(json_encode($theme_config_xml), true);
+
+        # Rebuild array processing language options
+        $processed_fields_array = array();
+        foreach ( $theme_config_array['customfields'] as $field_id => $field_details )
+        {
+            foreach ( $field_details as $detail_key => $detail_value )
+            {
+                if ( is_array($detail_value) && $detail_key !== 'options' )
+                {
+                    if ( array_key_exists($this->current_lang, $detail_value) )
+                    {
+                        $processed_fields_array[$field_id][$detail_key] = $detail_value[$this->current_lang];
+                    }
+                    else
+                    {
+                        $processed_fields_array[$field_id][$detail_key] = $detail_value['en_US'];
+                    }
+                }
+                elseif ( $detail_key === 'options' )
+                {
+                    foreach ( $detail_value as $option_key => $option_value )
+                    {
+                        if ( is_array($option_value) )
+                        {
+                            if ( array_key_exists($this->current_lang, $option_value) )
+                            {
+                                $processed_fields_array[$field_id][$detail_key][$option_key] = $option_value[$this->current_lang];
+                            }
+                            else
+                            {
+                                $processed_fields_array[$field_id][$detail_key][$option_key] = $option_value['en_US'];
+                            }
+                        }
+                        else
+                        {
+                            $processed_fields_array[$field_id][$detail_key][$option_key] = $option_value;
+                        }
+                    }
+                }
+                else
+                {
+                    $processed_fields_array[$field_id][$detail_key] = $detail_value;
+                }
+            }
+        }
+
+        return $processed_fields_array;
     }
     
     /**
      * Save custom fields
-     * Saves the submitted custom fields values to the page's XML file.
+     * Saves the submitted custom fields values to the page's XML file. Called via the 'changedata-save' action hook
      * 
      * @since 1.0.0
      * @param string $theme The name of the theme custom fields relate to
-     * @param array $config An array of custom fields values to save
-     * @return bool True if successful, False otherwise
+     * @param SimpleXMLExtended $xml The page's XML object to add the fields to
+     * @param array $post_data An array of values to save, usually from $_POST
+     * @return SimpleXMLExtended The updated page XML object to pass back for saving
      */
-    public function saveCustomFields( string $theme, array $fields ): bool
+    public function saveCustomFields( string $theme, SimpleXMLExtended $xml, array $post_data = [] ): SimpleXMLExtended
     {
-        return false;
+        foreach ( $this->hasCustomFields($theme) as $field_key => $field_data )
+        {
+            if ( isset($post_data[$theme . '-' . $field_key]) )
+            {
+                // @TODO: Validate the values before adding them to the XML data
+                $xml->addChild( $theme . '-' . $field_key, $post_data[$theme . '-' . $field_key] );
+            }
+        }
+
+        return $xml;
     }
     
     /**
