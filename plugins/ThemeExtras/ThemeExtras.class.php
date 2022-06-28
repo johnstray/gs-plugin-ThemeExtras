@@ -66,7 +66,10 @@ class ThemeExtras
         
         $config_xml = getXML( $this->data_file );
         $config_array = json_decode( json_encode($config_xml), true );
-        $this->current_config = $config_array['theme'];
+        if ( empty($config_array) === false )
+        {
+            $this->current_config = $config_array['theme'];
+        }
         if ( $this->isAssociative($this->current_config) )
         {
             $this->current_config = array( 0 => $this->current_config );
