@@ -68,7 +68,14 @@ function ThemeExtras_main(): void
     
     if ( isset($_GET['settings']) && $_GET['settings'] == 'reset-default' )
     {
-        // Reset theme to it's default settings
+        if ( $ThemeExtras->resetConfig($TEMPLATE) )
+        {
+            ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/SETTINGS_RESET_OK'), 'success', true );
+        }
+        else
+        {
+            ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/SETTINGS_RESET_FAILED'), 'warn', false );
+        }
     }
     
     if ( isset($_GET['settings']) && $_GET['settings'] == 'cancel' )

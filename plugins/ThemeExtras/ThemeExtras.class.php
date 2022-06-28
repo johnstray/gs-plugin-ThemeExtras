@@ -297,6 +297,22 @@ class ThemeExtras
         return true;
     }
     
+    public function resetConfig( string $theme ): bool
+    {
+        # Find the theme we are resetting
+        foreach ( $this->current_config as $theme_id => $theme_data )
+        {
+            if ( $theme_data['name'] === $theme )
+            {
+                # Clear out current config - Set to empty array
+                $this->current_config[$theme_id]['config'] = array();
+            }
+        }
+
+        # Call saveConfig with empty array should result in the current config being written to file
+        return $this->saveConfig( $theme, array() );
+    }
+
     # -----
     # Custom Fields
     # -----

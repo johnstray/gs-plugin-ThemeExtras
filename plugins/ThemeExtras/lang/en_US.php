@@ -26,6 +26,8 @@ $i18n = array(
     'SETTINGS_UPDATED'          => "Theme configuration successfully updated!",
     'SETTINGS_UPDATE_FAILED'    => "Theme configuration could not be updated.",
     'SETTINGS_UPDATE_CANCELED'  => "Theme configuration update was cancelled. Your changes have not been saved.",
+    'SETTINGS_RESET_OK'         => "Theme configuration successfully reset to default settings!",
+    'SETTINGS_RESET_FAILED'     => "Theme configuration could not be reset to default settings.",
     
     'AUTHOR'                    => "Author:",
     'AUTHORS_WEBSITE'           => "Link to author&apos;s website",

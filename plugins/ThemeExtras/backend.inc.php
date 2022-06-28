@@ -58,7 +58,7 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                     <select class="text" name="<?php echo $config_id; ?>">
                         <?php foreach( $config_details['options'] as $option_key => $option_value ) {
                             if ($option_key == @$current_config[$config_id]) { $selected = true; }
-                            elseif ($option_key == @$config_details['default']) { $selected = true; }
+                            elseif (isset($current_config[$config_id]) === false && $option_key == @$config_details['default']) { $selected = true; }
                             else { $selected = false; } ?>
                             <option value="<?php echo $option_key; ?>" <?php echo ($selected ? 'selected': '') ?>>
                                 <?php echo $option_value; ?>
@@ -68,7 +68,8 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                 <?php break; case 'radio': ?>
                     <div class="radio-group">
                         <?php foreach( $config_details['options'] as $option_key => $option_value ) {
-                            if ($current_config[$config_id] == $option_key) { $selected = true; }
+                            if ($option_key == @$current_config[$config_id]) { $selected = true; }
+                            elseif (isset($current_config[$config_id]) === false && $option_key == @$config_details['default']) { $selected = true; }
                             else { $selected = false; } ?>
                             <span class="radio">
                                 <input type="radio" name="<?php echo $config_id; ?>" value="<?php echo $option_key; ?>" <?php echo ($selected ? 'checked': '') ?> />
@@ -80,7 +81,7 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                     <div class="checkbox-group">
                         <?php foreach( $config_details['options'] as $option_key => $option_value ) {
                             if ($option_key == @$current_config[$config_id]) { $selected = true; }
-                            elseif ($option_key == @$config_details['default']) { $selected = true; }
+                            elseif (isset($current_config[$config_id]) === false && $option_key == @$config_details['default']) { $selected = true; }
                             else { $selected = false; } ?>
                             <span class="checkbox">
                                 <input type="checkbox" name="<?php echo $config_id; ?>[]" value="<?php echo $option_key; ?>" <?php echo ($selected ? 'checked': '') ?> />
@@ -92,29 +93,29 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                     <input class="text" type="number" name="<?php echo $config_id; ?>" autocorrect="off"
                         <?php if (isset($config_details['pattern'])) { ?>pattern="<?php echo $config_details['pattern']; ?>" <?php } ?>
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo $current_config[$config_id] ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
                 <?php break; case 'tel': ?>
                     <input class="text" type="tel" name="<?php echo $config_id; ?>" autocorrect="off"
                         <?php if (isset($config_details['pattern'])) { ?>pattern="<?php echo $config_details['pattern']; ?>" <?php } ?>
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo $current_config[$config_id] ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
                 <?php break; case 'url': ?>
                     <input class="text" type="url" name="<?php echo $config_id; ?>" spellcheck="false" autocorrect="off"
                         <?php if (isset($config_details['pattern'])) { ?>pattern="<?php echo $config_details['pattern']; ?>" <?php } ?>
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo $current_config[$config_id] ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
                 <?php break; case 'color': ?>
                     <input class="text" type="color" name="<?php echo $config_id; ?>" pattern="#\d{6}"
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo $current_config[$config_id] ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: '' ?>" />
                 <?php break; case 'date': ?>
                     <input class="text" type="date" name="<?php echo $config_id; ?>" pattern="\d{4}-\d{2}-\d{2}"
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo $current_config[$config_id] ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
                 <?php break; default: ?>
                     <input class="text" type="text" name="<?php echo $config_id; ?>"
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo $current_config[$config_id] ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
             <?php } ?>
             
         </div>
