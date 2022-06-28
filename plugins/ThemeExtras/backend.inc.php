@@ -132,8 +132,8 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
 		<div id="dropdown">
 			<h6 class="dropdownaction"><?php i18n('ADDITIONAL_ACTIONS'); ?></h6>
 			<ul class="dropdownmenu">
-				<li><a href="theme.php?settings=cancel" ><?php i18n(SBLOG . '/CANCEL_CHANGES'); ?></a></li>
-				<li class="alertme"><a href="theme.php?settings=reset-default" ><?php i18n(SBLOG . '/RESET_TO_DEFAULT'); ?></a></li>
+				<li><a href="theme.php?settings=cancel" ><?php i18n(THEMEXTRAS . '/CANCEL_CHANGES'); ?></a></li>
+				<li class="alertme"><a href="theme.php?settings=reset-default" ><?php i18n(THEMEXTRAS . '/RESET_TO_DEFAULT'); ?></a></li>
 			</ul>
 		</div>
 
@@ -142,8 +142,3 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
 </form>
 
 <?php } ?>
-
-<div id="testing" style="margin-top:40px;padding:20px;border:1px dotted #777;"><pre><code><?php
-GLOBAL $LANG;
-
-?></code></pre></div>

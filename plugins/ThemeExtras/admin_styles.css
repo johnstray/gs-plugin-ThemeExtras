@@ -27,6 +27,7 @@
     padding: 20px;
     height: 265px;
     position: relative;
+    box-sizing: border-box; /* Fix for GS 3.3.x - Doesn't seem to affect GS 3.4.x */
 }
 
 .gs_themextras_ui_themeinfo .leftsec {
@@ -104,6 +105,11 @@
 
 .gs_themextras_ui_themeinfo p:last-child {
     color: #555;
+}
+
+.gs_themextras_ui_form .leftsec,
+.gs_themextras_ui_form .rightsec {
+    box-sizing: border-box; /* Fix for GS 3.3.x - Doesn't seem to affect GS 3.4.x */
 }
 
 .gs_themextras_ui_form h3 {

@@ -23,7 +23,7 @@ class ThemeExtras
         GLOBAL $LANG;
         if ( empty($LANG) === false )
         {
-            $this->current_lang = $LANG;
+            $this->current_lang = (string) $LANG;
         }
         
         if ( defined('THEMEXTRASDATA') )
