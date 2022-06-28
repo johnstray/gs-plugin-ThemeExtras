@@ -23,6 +23,9 @@ $i18n = array(
     'UI_SETTINGS_PAGE_INTRO'    => "This theme can be configured using the below configuration settings. Some of these " .
                                    "may influence how the theme shows things. Each setting below has its own default " .
                                    "value, and you also have the option to reset all.",
+    'SETTINGS_UPDATED'          => "Theme configuration successfully updated!",
+    'SETTINGS_UPDATE_FAILED'    => "Theme configuration could not be updated.",
+    'SETTINGS_UPDATE_CANCELED'  => "Theme configuration update was cancelled. Your changes have not been saved.",
     
     'AUTHOR'                    => "Author:",
     'AUTHORS_WEBSITE'           => "Link to author&apos;s website",
@@ -32,9 +35,13 @@ $i18n = array(
     
     'CONFIG_CREATE_FAILED'      => "Could not create a new themes config data file. Check that the /data/other path " .
                                    "is writeable.",
+    'CONFIG_UPDATE_FAILED'      => "Could not update the config data file. Check that the /data/other/themes-config.xml " .
+                                   "file is writeable.",
     'CONFIG_FILE_UNREADABLE'    => "Could not read from the themes config data file. Please make sure that the file " .
                                    "<code>%s</code> has read permissions set.",
     'CONFIG_FILE_NOT_WRITABLE'  => "The themes config data file is not writable, changes to settings cannot be saved. " .
                                    "Please make sure that the file %s has write permissions set.",
+    'CONFIG_REGEX_FAILED'       => "The value given for '%s' is not valid. Check and try again. It's value has not been " .
+                                   "saved to the theme configuration.",
     
 );

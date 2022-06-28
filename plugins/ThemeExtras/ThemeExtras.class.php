@@ -210,7 +210,91 @@ class ThemeExtras
      */
     public function saveConfig( string $theme, array $config ): bool
     {
-        return false;
+        # Prepare to build the XML array ready for saving to file
+        $config_xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><theme-configs/>');
+
+        # Get config options for the given theme
+        $config_options = $this->hasConfig( $theme );
+
+        # Loop over the config array until we find the given theme
+        # Update the current config if found, then/otherwise prep the XML data
+        foreach ( $this->current_config as $theme_id => $theme_data )
+        {
+            # Update the current config
+            if ( $theme_data['name'] === $theme )
+            {
+                # Loop over the provided config
+                foreach ( $config as $key => $value )
+                {
+                    # Make sure this is a valid config option
+                    if ( array_key_exists($key, $config_options) )
+                    {
+                        # If dropdown, radio, checkbox, make sure given value is an option
+                        if ( $config_options[$key]['type'] == 'dropdown' || $config_options[$key]['type'] == 'checkbox' || $config_options[$key]['type'] == 'radio' )
+                        {
+                            if ( array_key_exists($value, $config_options[$key]['options']) )
+                            {
+                                $this->current_config[$theme_id]['config'][$key] = $value;
+                            }
+                            else
+                            {
+                                # Given value is not an allowable option
+                                ThemeExtras_debugLog( __METHOD__, sprintf("Given setting value for %s is not valid. array_key_exists (false)", $key), 'WARN' );
+                                ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_REGEX_FAILED'), $key), 'warn', false );
+                            }
+                        }
+                        else # Validate the value using given regex
+                        {
+                            if ( array_key_exists('regex', $config_options[$key]) )
+                            {
+                                // Check the regex, then add to array if ok
+                                if ( preg_match($config_options[$key]['regex'], $value) === 1 )
+                                {
+                                    # Regex check passed, add value to array
+                                    $this->current_config[$theme_id]['config'][$key] = $value;
+                                }
+                                else
+                                {
+                                    # Regex check failed, drop the value and notify
+                                    ThemeExtras_debugLog( __METHOD__, sprintf("Given setting value for %s is not valid. preg_match (0)", $key), 'WARN' );
+                                    ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_REGEX_FAILED'), $key), 'warn', false );
+                                }
+                            }
+                            else
+                            {
+                                # DANGEROUS! No regex defined, add to array as is
+                                // @TODO: Consider replacing this with a basic regex check
+                                $this->current_config[$theme_id]['config'][$key] = $value;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Not a valid config option, ignore but notify
+                        ThemeExtras_debugLog( __METHOD__, sprintf("Given config key %s is not a valid config option. It will be ignored. array_key_exists (false)", $key), 'WARN' );
+                    }
+                }
+            }
+
+            # Add data to the XML array
+            $theme_xml = $config_xml->addChild('theme');
+            $theme_xml->addChild('name', $theme_data['name']);
+            $theme_config = $theme_xml->addChild('config');
+            foreach ( $theme_data['config'] as $config_key => $config_value )
+            {
+                $theme_config->addChild( $config_key, $config_value );
+            }
+        }
+
+        # Save the XML array to file
+        if ( XMLsave($config_xml, $this->data_file) === false )
+        {
+            ThemeExtras_debugLog( "Could not update the config data file. XMLsave (false)", 'ERROR' );
+            ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/CONFIG_UPDATE_FAILED'), 'error', false );
+            return false;
+        }
+
+        return true;
     }
     
     # -----

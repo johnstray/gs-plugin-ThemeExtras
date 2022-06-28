@@ -54,19 +54,26 @@ function ThemeExtras_main(): void
     GLOBAL $TEMPLATE, $SITEURL;
     $ThemeExtras = new ThemeExtras();
     
-    if ( isset($_POST['settings']) && $_POST['settings'] == 'submitted' )
+    if ( isset($_GET['settings']) && $_GET['settings'] == 'submitted' )
     {
-        // Configuration submitted, save the config to file
+        if ( $ThemeExtras->saveConfig($TEMPLATE, $_POST) )
+        {
+            ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/SETTINGS_UPDATED'), 'success', true );
+        }
+        else
+        {
+            ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/SETTINGS_UPDATE_FAILED'), 'error', false );
+        }
     }
     
-    if ( isset($_POST['settings']) && $_POST['settings'] == 'reset-default' )
+    if ( isset($_GET['settings']) && $_GET['settings'] == 'reset-default' )
     {
         // Reset theme to it's default settings
     }
     
-    if ( isset($_POST['settings']) && $_POST['settings'] == 'submitted' )
+    if ( isset($_GET['settings']) && $_GET['settings'] == 'cancel' )
     {
-        // Cancel changes, notify user.
+        ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/SETTINGS_UPDATE_CANCELED'), 'warn', true );
     }
     
     $current_theme = $ThemeExtras->getThemeInfo($TEMPLATE);
