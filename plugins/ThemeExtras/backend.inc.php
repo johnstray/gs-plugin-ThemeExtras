@@ -17,7 +17,7 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
 <div class="gs_themextras_ui_themeinfo">
     <div class="leftsec">
         <div class="gs_themextras_ui_screenshot">
-            <?php if ( /*file_exists(GSTHEMESPATH . $TEMPLATE . '/images/screenshot.png')*/ false ) { ?>
+            <?php if ( file_exists(GSTHEMESPATH . $TEMPLATE . '/images/screenshot.png') ) { ?>
                 <img src="../<?php echo str_replace(GSROOTPATH,'',GSTHEMESPATH).$TEMPLATE; ?>/images/screenshot.png" alt="<?php i18n('THEME_SCREENSHOT'); ?>" />
             <?php } else { ?>
                 <p class="notify_info"><?php i18n('NO_THEME_SCREENSHOT'); ?></p>
