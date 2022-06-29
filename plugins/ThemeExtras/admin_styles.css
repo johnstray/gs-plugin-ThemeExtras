@@ -43,17 +43,18 @@
 
 .gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot p {
     margin: 0;
-    height: 223px;
-    line-height: 223px;
+    padding:20px;
+    height: 220px;
+    line-height: 180px;
     background: #fff;
     border: 1px dotted #e3e3e3;
+    box-sizing: border-box;
 }
 
 .gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot {
     position: relative;
     display: inline-block;
     z-index: 1;
-    width: 100%;
 }
 
 .gs_themextras_ui_themeinfo .gs_themextras_ui_screenshot:before,
