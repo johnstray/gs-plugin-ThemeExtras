@@ -65,7 +65,7 @@ class ThemeExtras
         }
         
         $config_xml = getXML( $this->data_file );
-        $config_array = json_decode( json_encode($config_xml), true );
+        $config_array = json_decode( str_replace('{}', '""', json_encode($config_xml)), true );
         if ( empty($config_array) === false )
         {
             $this->current_config = $config_array['theme'];
@@ -87,7 +87,7 @@ class ThemeExtras
         if ( file_exists($theme_config_file) )
         {
             $theme_config_xml = getXML( $theme_config_file );
-            $theme_config_array = json_decode(json_encode($theme_config_xml), true);
+            $theme_config_array = json_decode(str_replace('{}', '""', json_encode($theme_config_xml)), true);
         }
         
         # We don't need these in this output
@@ -131,7 +131,7 @@ class ThemeExtras
         }
         
         $theme_config_xml = getXML( $theme_config_file );
-        $theme_config_array = json_decode(json_encode($theme_config_xml), true);
+        $theme_config_array = json_decode(str_replace('{}', '""', json_encode($theme_config_xml)), true);
         
         # Rebuild array processing language options
         $processed_config_array = array();
@@ -139,6 +139,7 @@ class ThemeExtras
         {
             foreach ( $config_details as $detail_key => $detail_value )
             {
+                var_dump($detail_value);
                 if ( is_array($detail_value) && $detail_key !== 'options' )
                 {
                     if ( array_key_exists($this->current_lang, $detail_value) )
@@ -346,7 +347,7 @@ class ThemeExtras
         }
 
         $theme_config_xml = getXML( $theme_config_file );
-        $theme_config_array = json_decode(json_encode($theme_config_xml), true);
+        $theme_config_array = json_decode(str_replace('{}', '""', json_encode($theme_config_xml)), true);
 
         # Rebuild array processing language options
         $processed_fields_array = array();
