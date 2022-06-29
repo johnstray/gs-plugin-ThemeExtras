@@ -194,7 +194,7 @@ class ThemeExtras
         $theme_config = array();
         foreach ( $this->current_config as $theme_data )
         {
-            if ( $theme_data['name'] === $theme )
+            if ( $theme_data['name'] === $theme && is_array($theme_data['config']) )
             {
                 $theme_config = $theme_data['config'];
             }
