@@ -1,33 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <theme>
-    <name>Innovation</name>
-    <name-de_DE>German Innovation</name-de_DE>
-    <description>The GetSimple CMS primary default theme</description>
+    <name>
+        <en_US>Innovation</en_US>
+    </name>
+    <description>
+        <en_US>The GetSimple CMS primary default theme</en_US>
+    </description>
     <author>GetSimple CMS</author>
     <author-url>https://get-simple.info/</author-url>
+    <version>1.0.0</version>
     <config>
-        <option>
-            <name>config-option</name>
-            <title>Configuration Option</title>
-            <hint>Hint text about this option</hint>
+        <text-option><!-- KEY of the config option -->>
+            <label><!-- Display label - Can be single string, or array of language options -->
+                <en_US>Textbox Option</en_US>
+            </label>
+            <hint><!-- Hint label - Can be single string, or array of language options -->
+                <en_US>An ordinary textbox type option</en_US>
+            </hint>
+            <type>text</type><!-- The type of option to show -->
+            <default>Default Value</default><!-- The default value for this config option -->
+            <pattern></pattern><!-- Browser validation regex <input pattern=""> -->
+            <regex></regex><!-- A regex string to validate the value, suitable for PHP's preg_match function -->
+        </text-option>
+        <number-option>
+            <label>
+                <en_US>Number Option</en_US>
+            </label>
+            <hint>
+                <en_US>A number selector</en_US>
+            </hint>
+            <type>number</type>
+            <range>0,100,0.1</range><!-- Min,Max,Step - 0,100,0.1 -->
+            <default>0</default>
+            <regex></regex>
+        </number-option>
+        <tel-option>
+            <label>
+                <en_US>Phone Option</en_US>
+            </label>
+            <hint>
+                <en_US>A phone number input</en_US>
+            </hint>
+            <type>tel</type>
+            <size>8,10</size><!-- Min,Max - 8,10 -->
+            <default>123-456-7890</default>
+            <pattern>[0-9]{3}-[0-9]{3}-[0-9]{4}</pattern>
+            <regex>/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/</regex>
+        </tel-option>
+        <url-option>
+            <label>
+                <en_US>URL Option</en_US>
+            </label>
+            <hint>
+                <en_US>A web address URL input</en_US>
+            </hint>
+            <type>tel</type>
+            <size>8,10</size><!-- Min,Max - 8,10 -->
+            <default>https://www.example.com/</default>
+            <pattern>*.example.com</pattern>
+            <regex></regex>
+        </url-option>
+        <color-option>
+            <label>
+                <en_US>Color Option</en_US>
+            </label>
+            <hint>
+                <en_US>A color selector input</en_US>
+            </hint>
+            <type>color</type>
+            <default>#123456</default>
+            <regex></regex>
+        </color-option>
+        <date-option>
+            <label>
+                <en_US>Date Option</en_US>
+            </label>
+            <hint>
+                <en_US>A date selector input</en_US>
+            </hint>
+            <type>date</type>
+            <range>1970-01-01,2032-12-31,1</range><!-- Min,Max,Step - 1970-01-01,2032-12-31,1 -->
+            <default>1970-01-01</default>
+            <regex></regex>
+        </date-option>
+        <dropdown-option>
+            <label>
+                <en_US>Dropdown Option</en_US>
+            </label>
+            <hint>
+                <en_US>A dropdown options input</en_US>
+            </hint>
             <type>dropdown</type>
-            <default>value</default>
+            <default>value-1</default>
             <options>
-                <option-key>Display Value</option-key>
+                <value-1>
+                    <en_US>Value 1</en_US>
+                </value-1>
+                <value-2>
+                    <en_US>Value 2</en_US>
+                </value-2>
             </options>
-        </option>
+        </dropdown-option>
+        <radio-option>
+            <label>
+                <en_US>Radio Button Option</en_US>
+            </label>
+            <hint>
+                <en_US>A radio button type input</en_US>
+            </hint>
+            <type>radio</type>
+            <default>value-1</default>
+            <options>
+                <value-1>
+                    <en_US>Value 1</en_US>
+                </value-1>
+                <value-2>
+                    <en_US>Value 2</en_US>
+                </value-2>
+            </options>
+        </radio-option>
+        <checkbox-option>
+            <label>
+                <en_US>Radio Button Option</en_US>
+            </label>
+            <hint>
+                <en_US>A radio button type input</en_US>
+            </hint>
+            <type>radio</type>
+            <default>value-1,value-2</default><!-- Multiple selected using comma separated list -->
+            <options>
+                <value-1>
+                    <en_US>Value 1</en_US>
+                </value-1>
+                <value-2>
+                    <en_US>Value 2</en_US>
+                </value-2>
+            </options>
+        </checkbox-option>
     </config>
     <customfields>
-        <option>
-            <name>config-option</name>
-            <title>Configuration Option</title>
-            <hint>Hint text about this option</hint>
+        <text-option>
+            <label>
+                <en_US>Textbox Option</en_US>
+            </label>
+            <hint>
+                <en_US>An ordinary textbox type option</en_US>
+            </hint>
+            <type>text</type>
+            <default>Default Value</default>
+            <pattern></pattern>
+            <regex></regex>
+        </text-option>
+        <number-option>
+            <label>
+                <en_US>Number Option</en_US>
+            </label>
+            <hint>
+                <en_US>A number selector</en_US>
+            </hint>
+            <type>number</type>
+            <range>0,100,0.1</range><!-- Min,Max,Step - 0,100,0.1 -->
+            <default>0</default>
+            <regex></regex>
+        </number-option>
+        <tel-option>
+            <label>
+                <en_US>Phone Option</en_US>
+            </label>
+            <hint>
+                <en_US>A phone number input</en_US>
+            </hint>
+            <type>tel</type>
+            <size>8,10</size><!-- Min,Max - 8,10 -->
+            <default>123-456-7890</default>
+            <pattern>[0-9]{3}-[0-9]{3}-[0-9]{4}</pattern>
+            <regex></regex>
+        </tel-option>
+        <url-option>
+            <label>
+                <en_US>URL Option</en_US>
+            </label>
+            <hint>
+                <en_US>A web address URL input</en_US>
+            </hint>
+            <type>tel</type>
+            <size>8,10</size><!-- Min,Max - 8,10 -->
+            <default>https://www.example.com/</default>
+            <pattern></pattern>
+            <regex></regex>
+        </url-option>
+        <color-option>
+            <label>
+                <en_US>Color Option</en_US>
+            </label>
+            <hint>
+                <en_US>A color selector input</en_US>
+            </hint>
+            <type>color</type>
+            <default>#123456</default>
+            <regex></regex>
+        </color-option>
+        <date-option>
+            <label>
+                <en_US>Date Option</en_US>
+            </label>
+            <hint>
+                <en_US>A date selector input</en_US>
+            </hint>
+            <type>date</type>
+            <range>1970-01-01,2032-12-31,1</range><!-- Min,Max,Step - 1970-01-01,2032-12-31,1 -->
+            <default>1970-01-01</default>
+            <regex></regex>
+        </date-option>
+        <dropdown-option>
+            <label>
+                <en_US>Dropdown Option</en_US>
+            </label>
+            <hint>
+                <en_US>A dropdown options input</en_US>
+            </hint>
             <type>dropdown</type>
-            <default>value</default>
+            <default>value-1</default>
             <options>
-                <option-key>Display Value</option-key>
+                <value-1>
+                    <en_US>Value 1</en_US>
+                </value-1>
+                <value-2>
+                    <en_US>Value 2</en_US>
+                </value-2>
             </options>
-        </option>
+        </dropdown-option>
+        <radio-option>
+            <label>
+                <en_US>Radio Button Option</en_US>
+            </label>
+            <hint>
+                <en_US>A radio button type input</en_US>
+            </hint>
+            <type>radio</type>
+            <default>value-1</default>
+            <options>
+                <value-1>
+                    <en_US>Value 1</en_US>
+                </value-1>
+                <value-2>
+                    <en_US>Value 2</en_US>
+                </value-2>
+            </options>
+        </radio-option>
+        <checkbox-option>
+            <label>
+                <en_US>Radio Button Option</en_US>
+            </label>
+            <hint>
+                <en_US>A radio button type input</en_US>
+            </hint>
+            <type>radio</type>
+            <default>value-1,value-2</default><!-- Multiple selected using comma separated list -->
+            <options>
+                <value-1>
+                    <en_US>Value 1</en_US>
+                </value-1>
+                <value-2>
+                    <en_US>Value 2</en_US>
+                </value-2>
+            </options>
+        </checkbox-option>
     </customfields>
 </theme>
 
