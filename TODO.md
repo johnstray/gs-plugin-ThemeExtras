@@ -6,6 +6,7 @@
 
 #### Bug Fixes
 - Better handling of Checkbox type options
+- Fix serious flaw in saveConfig method logic
 - Add support for min/max/step in number, tel, url and date inputs
 
 #### Error Handling

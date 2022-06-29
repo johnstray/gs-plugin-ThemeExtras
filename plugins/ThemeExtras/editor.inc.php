@@ -49,10 +49,15 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                     </div>
                 <?php break; case 'checkbox': ?>
                     <div class="checkbox-group">
-                        <?php foreach( $field_details['options'] as $option_key => $option_value ) {
-                            if ($option_key == (string) @$data_edit->{$TEMPLATE.'-'.$field_id}) { $selected = true; }
-                            elseif (isset($data_edit->{$TEMPLATE.'-'.$field_id}) === false && $option_key == @$field_details['default']) { $selected = true; }
-                            else { $selected = false; } ?>
+                        <?php $checkbox_options = explode(',', (string) @$data_edit->{$TEMPLATE.'-'.$field_id});
+                        $default_options = explode(',', @$field_details['default']);
+                        foreach( @$field_details['options'] as $option_key => $option_value ) {
+                            $selected = false;
+                            if ( count($checkbox_options) > 0 && && empty($checkbox_options[0]) === false ) {
+                                if (in_array($option_key, $checkbox_options)) { $selected = true; }
+                            } else {
+                                if (in_array($option_key, $default_options)) { $selected = true; }
+                            } ?>
                             <span class="checkbox">
                                 <input type="checkbox" name="<?php echo $TEMPLATE.'-'.$field_id; ?>[]" value="<?php echo $option_key; ?>" <?php echo ($selected ? 'checked': '') ?> />
                                 <?php echo $option_value; ?>

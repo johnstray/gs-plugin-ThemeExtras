@@ -224,7 +224,7 @@ class ThemeExtras
         foreach ( $this->current_config as $theme_id => $theme_data )
         {
             # Update the current config
-            if ( $theme_data['name'] === $theme )
+            if ( $theme_data['name'] === $theme ) // @TODO: Fix this, it's a bad choice of logic. It will never match if theme's config is not set yet
             {
                 # Loop over the provided config
                 foreach ( $config as $key => $value )
@@ -232,8 +232,8 @@ class ThemeExtras
                     # Make sure this is a valid config option
                     if ( array_key_exists($key, $config_options) )
                     {
-                        # If dropdown, radio, checkbox, make sure given value is an option
-                        if ( $config_options[$key]['type'] == 'dropdown' || $config_options[$key]['type'] == 'checkbox' || $config_options[$key]['type'] == 'radio' )
+                        # If dropdown, radio, make sure given value is an option
+                        if ( $config_options[$key]['type'] == 'dropdown' || $config_options[$key]['type'] == 'radio' )
                         {
                             if ( array_key_exists($value, $config_options[$key]['options']) )
                             {
@@ -245,6 +245,27 @@ class ThemeExtras
                                 ThemeExtras_debugLog( __METHOD__, sprintf("Given setting value for %s is not valid. array_key_exists (false)", $key), 'WARN' );
                                 ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_REGEX_FAILED'), $key), 'warn', false );
                             }
+                        }
+                        # Special handling for checkboxes
+                        elseif ( $config_options[$key]['type'] == 'checkbox' )
+                        {
+                            $valid_values = array();
+
+                            foreach ( $value as $checkbox ) # Loop over checked checkboxes
+                            {
+                                if ( array_key_exists($value, $config_options[$key]['options']) )
+                                {
+                                    $valid_values[] = $value;
+                                }
+                                else
+                                {
+                                    # Given value is not an allowable option
+
+                                    ThemeExtras_debugLog( __METHOD__, sprintf("Given setting value for %s is not valid. array_key_exists (false)", $key), 'WARN' );
+                                    ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_REGEX_FAILED'), $key), 'warn', false );
+                                }
+                            }
+                            $this->current_config[$theme_id]['config'][$key] = implode(',', $valid_values);
                         }
                         else # Validate the value using given regex
                         {
@@ -413,6 +434,11 @@ class ThemeExtras
             if ( isset($post_data[$theme . '-' . $field_key]) )
             {
                 // @TODO: Validate the values before adding them to the XML data
+
+                if ( $field_data['type'] == 'checkbox' )
+                {   # Implode checked checkboxes
+                    $post_data[$theme . '-' . $field_key] = implode(',', $post_data[$theme . '-' . $field_key]);
+                }
                 $xml->addChild( $theme . '-' . $field_key, $post_data[$theme . '-' . $field_key] );
             }
         }

@@ -79,10 +79,15 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                     </div>
                 <?php break; case 'checkbox': ?>
                     <div class="checkbox-group">
-                        <?php foreach( $config_details['options'] as $option_key => $option_value ) {
-                            if ($option_key == @$current_config[$config_id]) { $selected = true; }
-                            elseif (isset($current_config[$config_id]) === false && $option_key == @$config_details['default']) { $selected = true; }
-                            else { $selected = false; } ?>
+                        <?php $current_config[$config_id] = explode(',', @$current_config[$config_id] || '');
+                        $default_options = explode(',', @$config_details['default']);
+                        foreach( $config_details['options'] as $option_key => $option_value ) {
+                            $selected = false;
+                            if (count($current_config[$config_id]) > 0 && empty($current_config[$config_id][0]) === false) {
+                                if (in_array($option_key, $current_config[$config_id])) { $selected = true; }
+                            } else {
+                                if (in_array($option_key, $default_options)) { $selected = true; }
+                            } ?>
                             <span class="checkbox">
                                 <input type="checkbox" name="<?php echo $config_id; ?>[]" value="<?php echo $option_key; ?>" <?php echo ($selected ? 'checked': '') ?> />
                                 <?php echo $option_value; ?>
