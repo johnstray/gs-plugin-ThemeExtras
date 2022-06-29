@@ -139,7 +139,6 @@ class ThemeExtras
         {
             foreach ( $config_details as $detail_key => $detail_value )
             {
-                var_dump($detail_value);
                 if ( is_array($detail_value) && $detail_key !== 'options' )
                 {
                     if ( array_key_exists($this->current_lang, $detail_value) )
