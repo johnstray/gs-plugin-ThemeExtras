@@ -98,17 +98,23 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                     <input class="text" type="number" name="<?php echo $config_id; ?>" autocorrect="off"
                         <?php if (isset($config_details['pattern'])) { ?>pattern="<?php echo $config_details['pattern']; ?>" <?php } ?>
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>"
+                        <?php if (isset($config_details['range'])) { $range=explode(',',$config_details['range']); ?>
+                        min="<?php echo $range[0]; ?>" max="<?php echo $range[1]; ?>" step="<?php echo $range[2]; ?>"<?php } ?> />
                 <?php break; case 'tel': ?>
                     <input class="text" type="tel" name="<?php echo $config_id; ?>" autocorrect="off"
                         <?php if (isset($config_details['pattern'])) { ?>pattern="<?php echo $config_details['pattern']; ?>" <?php } ?>
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>"
+                        <?php if (isset($config_details['size'])) { $range=explode(',',$config_details['size']); ?>
+                        minlength="<?php echo $range[0]; ?>" maxlength="<?php echo $range[1]; ?>"<?php } ?> />
                 <?php break; case 'url': ?>
                     <input class="text" type="url" name="<?php echo $config_id; ?>" spellcheck="false" autocorrect="off"
                         <?php if (isset($config_details['pattern'])) { ?>pattern="<?php echo $config_details['pattern']; ?>" <?php } ?>
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>"
+                        <?php if (isset($config_details['size'])) { $range=explode(',',$config_details['size']); ?>
+                        minlength="<?php echo $range[0]; ?>" maxlength="<?php echo $range[1]; ?>"<?php } ?> />
                 <?php break; case 'color': ?>
                     <input class="text" type="color" name="<?php echo $config_id; ?>" pattern="#\d{6}"
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
@@ -116,7 +122,9 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                 <?php break; case 'date': ?>
                     <input class="text" type="date" name="<?php echo $config_id; ?>" pattern="\d{4}-\d{2}-\d{2}"
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
-                        value="<?php echo @$current_config[$config_id] ?: ''; ?>" />
+                        value="<?php echo @$current_config[$config_id] ?: ''; ?>"
+                        <?php if (isset($config_details['range'])) { $range=explode(',',$config_details['range']); ?>
+                        min="<?php echo $range[0]; ?>" max="<?php echo $range[1]; ?>" step="<?php echo $range[2]; ?>"<?php } ?> />
                 <?php break; default: ?>
                     <input class="text" type="text" name="<?php echo $config_id; ?>"
                         placeholder="<?php echo i18n_r(THEMEXTRAS . '/DEFAULT') . ' '.@($config_details['default'] ?: ''); ?>"
