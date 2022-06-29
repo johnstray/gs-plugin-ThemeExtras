@@ -119,10 +119,11 @@
     margin: 40px 0 20px;
 }
 
-.gs_themextras_ui_form input,
+.gs_themextras_ui_form input:not([type="radio"]):not([type="checkbox"]),
 .gs_themextras_ui_form select,
 .gs_themextras_ui_form textarea,
-.gs_themextras_ui_form .radio {
+.gs_themextras_ui_form .radio-group,
+.gs_themextras_ui_form .checkbox-group {
     margin-top: 8px;
 }
 
