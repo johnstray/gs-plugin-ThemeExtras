@@ -131,9 +131,11 @@
     padding-left: 40px;
 }
 
-.gs_themextras_ui_form .radio {
+.gs_themextras_ui_form .radio,
+.gs_themextras_ui_form .checkbox {
     width: 49%;
     display: inline-block;
+    line-height: 26px;
 }
 .gs_themextras_ui_form .radio input[type=radio] {
     margin-top: 0;
