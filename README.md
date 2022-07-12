@@ -19,7 +19,8 @@
 	<a href="#about">About</a> &nbsp;&nbsp;&bull;&nbsp;&nbsp;
 	<a href="#known-supported-themes">Supported Themes</a> &nbsp;&nbsp;&bull;&nbsp;&nbsp;
 	<a href="#installation-and-usage">Installation and Usage</a> &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-	<a href="#contributing">Contributing</a>
+	<a href="#contributing">Contributing</a> &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+	<a href="https://github.com/johnstray/gs-plugin-ThemeExtras/wiki">Documentation</a>
 </p>
 
 <!-- This is intentional to create blank space -->
@@ -58,7 +59,7 @@ To enable a theme to be supported by this plugin, it will need to have a `theme.
 
 ---
 
-## Contributions
+## Contributing
 Everyone is welcome to make suggestions on how this plugin can be improved by either submitting an issue or a pull-request. If you would like to contribute to this project, please first have a read of the [Contributing Guidelines](.github/CONTRIBUTING.md).
 
 ## License
