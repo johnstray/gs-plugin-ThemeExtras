@@ -51,9 +51,9 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
                     <div class="checkbox-group">
                         <?php $checkbox_options = explode(',', (string) @$data_edit->{$TEMPLATE.'-'.$field_id});
                         $default_options = explode(',', @$field_details['default']);
-                        foreach( @$field_details['options'] as $option_key => $option_value ) {
+                        foreach( $field_details['options'] as $option_key => $option_value ) {
                             $selected = false;
-                            if ( count($checkbox_options) > 0 && && empty($checkbox_options[0]) === false ) {
+                            if (count($checkbox_options) > 0 && empty($checkbox_options[0]) === false) {
                                 if (in_array($option_key, $checkbox_options)) { $selected = true; }
                             } else {
                                 if (in_array($option_key, $default_options)) { $selected = true; }

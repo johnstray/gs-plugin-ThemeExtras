@@ -4,10 +4,6 @@
 - Write documentation
 - More verbose commenting of code where possible
 
-#### Bug Fixes
-- Better handling of Checkbox type options
-- Fix serious flaw in saveConfig method logic
-
 #### Error Handling
 - Check for class existence before loading. Handle it if its missing.
 

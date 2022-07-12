@@ -74,6 +74,31 @@ class ThemeExtras
         {
             $this->current_config = array( 0 => $this->current_config );
         }
+
+        # Check for all supported installed themes, make sure they have a config definition available
+        $installed_themes = glob(GSTHEMESPATH . '*');
+        foreach ( $installed_themes as $installed_theme )
+        {
+            if ( file_exists($installed_theme . DIRECTORY_SEPARATOR . 'theme.xml') )
+            {
+                $config_defined = false;
+                foreach ( $this->current_config as $current_config )
+                {
+                    if ( $current_config['name'] == $this->getThemeInfo(basename($installed_theme))['name'] )
+                    {
+                        $config_defined = true;
+                    }
+                }
+
+                if ( $config_defined === false )
+                {
+                    $this->current_config[] = array(
+                        'name' => $this->getThemeInfo(basename($installed_theme))['name'],
+                        'config' => array()
+                    );
+                }
+            }
+        }
     }
     
     # -----
@@ -135,6 +160,8 @@ class ThemeExtras
         
         # Rebuild array processing language options
         $processed_config_array = array();
+        // @NOTE: Below catches empty config xml in a theme's theme.xml
+        if ( $theme_config_array['config'] == '' ) { $theme_config_array['config'] = array(); }
         foreach ( $theme_config_array['config'] as $config_id => $config_details )
         {
             foreach ( $config_details as $detail_key => $detail_value )
@@ -371,6 +398,7 @@ class ThemeExtras
 
         # Rebuild array processing language options
         $processed_fields_array = array();
+        if ( $theme_config_array['customfields'] == '' ) { $theme_config_array['customfields'] = array(); }
         foreach ( $theme_config_array['customfields'] as $field_id => $field_details )
         {
             foreach ( $field_details as $detail_key => $detail_value )
