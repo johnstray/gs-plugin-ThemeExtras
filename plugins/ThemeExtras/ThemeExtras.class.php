@@ -34,11 +34,11 @@ class ThemeExtras
         # Check if the config data file exists, create a new one if not
         if ( file_exists($this->data_file) === false )
         {
-            ThemeExtras_debugLog( "Config data file not found. Creating a new one.", 'INFO' );
+            ThemeExtras_debugLog( __METHOD__, "Config data file not found. Creating a new one.", 'INFO' );
             $config_xml = new SimpleXMLExtended('<?xml version="1.0" encoding="UTF-8"?><theme-configs/>');
             if ( XMLsave($config_xml, $this->data_file) === false )
             {
-                ThemeExtras_debugLog( "Could not create new config data file. XMLsave (false)", 'ERROR' );
+                ThemeExtras_debugLog( __METHOD__, "Could not create new config data file. XMLsave (false)", 'ERROR' );
                 ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/CREATE_CONFIG_FAILED'), 'error', false );
                 # Bail out early so we don't try to read this file that couldn't be created,
                 # preventing php errors and will cause an empty config array.
@@ -49,7 +49,7 @@ class ThemeExtras
         # Check if we can read from the config data file
         if ( is_readable($this->data_file) === false )
         {
-            ThemeExtras_debugLog( "Config data file is not readable. is_readable (false)", 'ERROR' );
+            ThemeExtras_debugLog( __METHOD__, "Config data file is not readable. is_readable (false)", 'ERROR' );
             ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_FILE_UNREADABLE'), $this->data_file), 'error', false );
             # Bail out early so we don't try to read this file that is not readable,
             # preventing php errors and will cause an empty config array.
@@ -60,7 +60,7 @@ class ThemeExtras
         # We wont bail out this time because we can still read in the config. We just wont be able to write to it.
         if ( is_writable($this->data_file) === false )
         {
-            ThemeExtras_debugLog( "Config data file is not writable. is_writable (false)", 'WARN' );
+            ThemeExtras_debugLog( __METHOD__, "Config data file is not writable. is_writable (false)", 'WARN' );
             ThemeExtras_displayMessage( sprintf(i18n_r(THEMEXTRAS . '/CONFIG_FILE_NOT_WRITABLE'), $this->data_file), 'warn', false );
         }
         

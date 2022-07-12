@@ -81,7 +81,16 @@ function get_theme_config( string $theme = '' ): array
     if ( empty($theme) ) { GLOBAL $TEMPLATE; $theme = (string) $TEMPLATE; }
 
     # Instansiate the core class so that we can use it here
-    $ThemeExtras = new ThemeExtras();
+    if ( class_exists('ThemeExtras') )
+    {
+        $ThemeExtras = new ThemeExtras();
+    }
+    else
+    {
+        ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/CLASS_NOT_FOUND'), 'warn', false );
+        ThemeExtras_debugLog( __FUNCTION__, "ThemeExtras core class file not loaded! Something has gone wrong.", 'FATAL' );
+        return array();
+    }
 
     # Get the config from the class and return it
     return $ThemeExtras->getConfig( $theme );

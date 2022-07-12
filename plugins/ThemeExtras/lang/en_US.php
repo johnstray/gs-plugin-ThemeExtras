@@ -46,4 +46,6 @@ $i18n = array(
     'CONFIG_REGEX_FAILED'       => "The value given for '%s' is not valid. Check and try again. It's value has not been " .
                                    "saved to the theme configuration.",
     
+    'CLASS_NOT_FOUND'           => "Fatal Error: ThemeExtras core class file not loaded! Something has gone wrong.",
+
 );

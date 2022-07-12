@@ -54,7 +54,16 @@ function ThemeExtras_main(): void
 {
     # Instantiate the class so that we can make use of it here
     GLOBAL $TEMPLATE, $SITEURL;
-    $ThemeExtras = new ThemeExtras();
+    if ( class_exists('ThemeExtras') )
+    {
+        $ThemeExtras = new ThemeExtras();
+    }
+    else
+    {
+        ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/CLASS_NOT_FOUND'), 'warn', false );
+        ThemeExtras_debugLog( __FUNCTION__, "ThemeExtras core class file not loaded! Something has gone wrong.", 'FATAL' );
+        return;
+    }
     
     if ( isset($_GET['settings']) && $_GET['settings'] == 'submitted' )
     {
@@ -100,7 +109,16 @@ function ThemeExtras_editor (): void
     GLOBAL $TEMPLATE, $data_edit;
 
     # Instantiate the core class so that we can use it here
-    $ThemeExtras = new ThemeExtras();
+    if ( class_exists('ThemeExtras') )
+    {
+        $ThemeExtras = new ThemeExtras();
+    }
+    else
+    {
+        ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/CLASS_NOT_FOUND'), 'warn', false );
+        ThemeExtras_debugLog( __FUNCTION__, "ThemeExtras core class file not loaded! Something has gone wrong.", 'FATAL' );
+        return;
+    }
     $customFields = $ThemeExtras->hasCustomFields($TEMPLATE);
 
     require_once( THEMEXTRASPATH . 'editor.inc.php' );
@@ -111,7 +129,16 @@ function ThemeExtras_changedata (): void
     GLOBAL $TEMPLATE, $xml;
 
     # Instantiate the core class so that we can use it here
-    $ThemeExtras = new ThemeExtras();
+    if ( class_exists('ThemeExtras') )
+    {
+        $ThemeExtras = new ThemeExtras();
+    }
+    else
+    {
+        ThemeExtras_displayMessage( i18n_r(THEMEXTRAS . '/CLASS_NOT_FOUND'), 'warn', false );
+        ThemeExtras_debugLog( __FUNCTION__, "ThemeExtras core class file not loaded! Something has gone wrong.", 'FATAL' );
+        return;
+    }
 
     # Update the page's XML object to include the custom fields
     $xml = $ThemeExtras->saveCustomFields($TEMPLATE, $xml, $_POST);
