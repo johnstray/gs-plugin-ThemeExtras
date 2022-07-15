@@ -161,7 +161,7 @@ class ThemeExtras
         # Rebuild array processing language options
         $processed_config_array = array();
         // @NOTE: Below catches empty config xml in a theme's theme.xml
-        if ( $theme_config_array['config'] == '' ) { $theme_config_array['config'] = array(); }
+        if ( empty($theme_config_array['config']) ) { $theme_config_array['config'] = array(); }
         foreach ( $theme_config_array['config'] as $config_id => $config_details )
         {
             foreach ( $config_details as $detail_key => $detail_value )
