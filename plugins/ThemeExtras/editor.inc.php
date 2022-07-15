@@ -25,7 +25,7 @@ if ( defined('IN_GS') === false ) { die( 'You cannot load this file directly!' )
 
             <?php switch ($field_details['type']) {
                 case 'dropdown': ?>
-                    <select class="text" name="<?php echo $field_id; ?>">
+                    <select class="text" name="<?php echo $TEMPLATE.'-'.$field_id; ?>">
                         <?php foreach( $field_details['options'] as $option_key => $option_value ) {
                             if ($option_key == (string) @$data_edit->{$TEMPLATE.'-'.$field_id}) { $selected = true; }
                             elseif (isset($data_edit->{$TEMPLATE.'-'.$field_id}) === false && $option_key == @$field_details['default']) { $selected = true; }
